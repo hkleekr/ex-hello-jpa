@@ -6,37 +6,30 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
-
 public class JpaMain {
 
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-        EntityManager em = emf.createEntityManager();  // EntityManager를 통해서 호출해야 한다.
+        EntityManager em = emf.createEntityManager();
 
-        EntityTransaction tx = em.getTransaction(); // 트랜젝션을 얻을 수 있다.
+        EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         try{
 
-//            Member findMember = em.find(Member.class, 1L);
-            List <Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(8)
-                    .getResultList();
+            //영속
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZZZ");
 
-            for (Member member : result) {
-                System.out.println("member.name ="+member.getName());
-            }
+            System.out.println("===================== ");
 
-
-            tx.commit();  // 커밋 꼭 해줘야 한다.
+            tx.commit();  // 정상이면 commit해주고
         } catch (Exception e) {
-            tx.rollback();
+            tx.rollback(); // 문제가 생기면 rollback 해주기
         } finally {
-            em.close();  // 사용 다하면 꼭 닫아줘야 함
+            em.close();  // 작업이 다 끝나면 EntityManager를 닫아주기
         }
-
-        emf.close();   // 사용 다하면 꼭 닫아줘야 함
+        emf.close();    // 전체 애플리케이션이 끝나면 EntityManagerFactory까지 닫아주기
     }
 }
