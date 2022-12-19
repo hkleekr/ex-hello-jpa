@@ -18,11 +18,10 @@ public class JpaMain {
 
         try{
 
-            //영속
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZZ");
+            Member member = new Member();
+            member.setUsername("C");
 
-            System.out.println("===================== ");
+            em.persist(member);
 
             tx.commit();  // 정상이면 commit해주고
         } catch (Exception e) {
