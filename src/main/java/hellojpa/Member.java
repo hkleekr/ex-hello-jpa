@@ -7,14 +7,19 @@ import javax.persistence.*;
 
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator")
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false)  //DB 컬럼이름
+    @Column(name = "USERNAME")  //DB 컬럼이름
     private String username;
 
-    public Member() {}
+//    @Column(name = "TEAM_ID")
+//    private Long teamID;
+
+    @ManyToOne  //관계, member입장(테이블의 입장)에서 many to one
+    @JoinColumn(name = "TEAM_ID") // 이 관계에서 조인할 컬럼을 말해줌
+    private Team team;
 
     public Long getId() {
         return id;
@@ -30,5 +35,13 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
