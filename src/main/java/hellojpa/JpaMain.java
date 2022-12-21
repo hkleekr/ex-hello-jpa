@@ -19,22 +19,28 @@ public class JpaMain {
         try{
 
             //저장
+
             Team team = new Team();
             team.setName("TeamA");
+//            team.getMembers().add(member);
             em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
+            member.changeTeam(team);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
 
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam.getName() = " + findTeam.getName());
+            System.out.println("=====================");
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
+            System.out.println("=====================");
 
 
             tx.commit();  // 정상이면 commit해주고

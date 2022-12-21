@@ -41,7 +41,8 @@ public class Member {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void changeTeam(Team team) {  //로직이 들어갔으므로 setTeam -> changeTeam으로 변경
         this.team = team;
+        team.getMembers().add(this);  // 연관관계 편의메서드, 양방향 쪽에 모두 값을 세팅하는데, 이곳에 설정해놓으면 누락을 방지할 수 있음
     }
 }
