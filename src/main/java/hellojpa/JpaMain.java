@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -18,21 +19,20 @@ public class JpaMain {
 
         try{
 
-
             Member member = new Member();
-            member.setUsername("member1");
+            member.setUsername("user1");
+            member.setCreateBy("Kim");
+            member.setCreateDate(LocalDateTime.now());
 
             em.persist(member);
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
-
-            em.persist(team);
+            em.flush();
+            em.clear();
 
 
             tx.commit();  // 정상이면 commit해주고
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback(); // 문제가 생기면 rollback 해주기
         } finally {
             em.close();  // 작업이 다 끝나면 EntityManager를 닫아주기
